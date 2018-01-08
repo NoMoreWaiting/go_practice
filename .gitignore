@@ -1,10 +1,16 @@
+# 忽略当前目录下的pkg文件夹及其子文件
 /pkg/*
 /src/*
-!/pkg
 
+
+# 不忽略当前目录的src/000_my_projects文件夹
 !/src/000_my_projects
+
+
+# 忽略所有目录下的.svn文件夹及其文件
 .idea
 vendor
+.svn
 
 
 
