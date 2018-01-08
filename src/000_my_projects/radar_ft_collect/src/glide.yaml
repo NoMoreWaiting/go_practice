@@ -1,0 +1,4 @@
+package: radar_ft_collect/src
+import:
+- package: github.com/go-sql-driver/mysql
+  version: ^1.3.0
