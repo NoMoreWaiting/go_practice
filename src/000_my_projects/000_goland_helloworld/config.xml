@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!-- 
+    服务配置
+    group_id：组号
+    local_ip：本地IP，监控使用
+    run_log：run日志开关
+    -->
+    <basic name="basic1" group_id="1" local_ip="192.168.19.192" run_log="1" async_queue_size="5000" />
+    <basic name="basic2" group_id="1" local_ip="192.168.19.193" run_log="1" async_queue_size="300" />
+    <!-- 
+    数据库配置，co_mysql为云端订单系统mysql数据库，co_redis为redis内存数据库
+    ip：IP
+    port：端口
+    user：数据库账号
+    pwd：数据库账号的密码
+    db_name：数据库名称
+    connect_time_out：数据库连接超时，秒
+    -->
+    <co_mysql ip="192.168.19.192" port="3306" user="tradepro" pwd="trading" db_name="cloud_order" connect_time_out="10" character_set="UTF8" />
+    <co_redis ip="192.168.19.192" port="6379" user="tradepro" pwd="trading" db_name="cloud_order" connect_time_out="10" character_set="UTF8" />
+    <!--
+    RMQ异步通信配置，item的序号必须从0依序分配
+    ip：RMQ总线程序的IP
+    port：RMQ总线程序的端口
+    read_time_out：从RQM总线读取消息的超时时间，即RmqReadMessage()的超时时间，毫秒
+    branch_id：RMQ分支号
+    svr_id：本模块的RMQ服务号，在RMQ总线中用作接收其他模块发送来的消息
+    gw_type：报盘机类型，比如限时单附属报盘机、限价单附属报盘机、登陆报盘机
+	broker_id：报盘机所连接的期货公司，比如国富、瑞达
+    -->
+    <!--<rmq_cfg ip="192.168.19.192" port="7500" read_time_out="2000" branch_id="400" svr_id="13100" />-->
+    <!--<rmq_co_mgr ip="192.168.19.192" port="7500" read_time_out="2000" branch_id="400" svr_id="13040" />-->
+	<rmq_gw>
+		<item ip="192.168.19.192" port="7500" branch_id="400" svr_id="13400" gw_type="5" broker_id="9999" />
+		<item ip="192.168.19.192" port="7500" branch_id="400" svr_id="13500" gw_type="5" broker_id="6AF050FC" />
+	</rmq_gw>
+	
+	<!-- 
+	行情服务器配置
+	ip：行情服务器的IP
+	port：行情服务器的端口
+	recv_timeout：接收行情数据的阻塞、超时时间
+	-->
+    <!--<quote_svr ip="192.168.19.193" port="8001" read_time_out="5" />-->
+    <quote_svr ip="192.168.19.192" port="56000" read_time_out="5" />
+	
+	<!-- 
+	码表拉取http配置
+	url : http地址
+	-->
+    <!--<code_table url="http://192.168.19.192:18000/ctp/queryInstCode"  />-->
+
+	<!-- 
+	超时时间配置
+	check_interval   :  超时函数检查间隔
+	login_time_out   :  登录超时时间
+	order_time_out   :  报单回报超时时间
+	-->
+    <time_out check_interval="5" login_time_out="10" order_time_out="30" />
+</config>
