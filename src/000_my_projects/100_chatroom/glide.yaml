@@ -1,0 +1,6 @@
+package: 100_chatroom
+import:
+- package: github.com/tyrchen/goutil
+  subpackages:
+  - regex
+  - uniq
