@@ -2,8 +2,8 @@
 /src/*
 !/pkg
 
-#!/src/000_my_projects
-#.idea
+!/src/000_my_projects
+.idea
 
 
 
