@@ -1,0 +1,9 @@
+/pkg/*
+/src/*
+!/pkg
+
+#!/src/000_my_projects
+#.idea
+
+
+
