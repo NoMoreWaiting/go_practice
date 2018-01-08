@@ -1,0 +1,12 @@
+package: 000_my_projects/gopl.io_sourcecode
+import:
+- package: golang.org/x/net/html
+- package: gopl.io
+  subpackages:
+  - ch12/params
+  - ch13/bzip
+  - ch2/tempconv
+  - ch4/github
+  - ch5/links
+  - ch7/eval
+  - ch7/tempconv
