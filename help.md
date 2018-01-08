@@ -55,7 +55,16 @@
         glide mirror remove https://github.com/example/foo
         ```
 
-    3. Glide 在windows10 64位系统上的bug修复方案
+    3. 基本使用:
+
+        1. go 项目根目录下, `$ glide init` 生成 glide.yaml 文件. 
+
+            glide 会自动分析项目导入所使用的包, 并记录包的依赖. 在 glide init 命令中, 会出现向导更进一步最终项目信息: 比如包的版本, 历史版本的保存等等. 根据英文提示进行选择
+
+        2. 将 glide.yaml 文件加入版本控制, 跟随项目一起上传
+        3. git clone 或者 svn checkout 新地址后, 在新地址的根目录下使用 `$ glide install` , 自动下载项目依赖包, 并存储在根目录下的 vendor 文件夹中. vendor 保存所属项目独有的包, 可以不依赖系统的 $GOPATH 路径下的包
+
+    4. Glide 在windows10 64位系统上的bug修复方案
         问题(有可能会显示乱码): [ERROR] Unable to export dependencies to vendor directory: Error moving files: exit status 1. output: Access is denied. 0 dir(s) moved 
         
         解决方案: 
@@ -74,7 +83,7 @@
         // 更详细的讨论解决方案 https://github.com/Masterminds/glide/issues/873 (这是老毛病了)
         ```
         
-    4. glide彻底解决go get golang.org/x/net 安装失败
+    5. glide彻底解决go get golang.org/x/net 安装失败
 
         ``` c
         // 就是 go mirror 神器
@@ -92,7 +101,7 @@
         ```
         
         
-    5. glide 解决 golang.org/x/net/context 无法连接下载的问题
+    6. glide 解决 golang.org/x/net/context 无法连接下载的问题
 
 
         有部分go软件包只依赖 net 包子目录中的 context 包, 这个官网没有单独的子目录连接, 使用:
