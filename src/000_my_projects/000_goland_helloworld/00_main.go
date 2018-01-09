@@ -41,7 +41,7 @@ func main() {
 	//testSingleNonDuplicate()
 
 	/*go programming language*/
-	//testGoProLan()
+	testGoProLan()
 
 	/*http server and client*/
 	//testHttpClient()

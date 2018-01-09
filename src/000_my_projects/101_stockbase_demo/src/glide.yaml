@@ -1,0 +1,7 @@
+package: 000_my_projects/101_stockbase_demo/src
+import:
+- package: github.com/astaxie/beego
+  subpackages:
+  - logs
+  - orm
+- package: github.com/go-sql-driver/mysql

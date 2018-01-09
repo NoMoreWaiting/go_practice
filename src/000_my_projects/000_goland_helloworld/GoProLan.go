@@ -33,7 +33,7 @@ import (
 )
 
 func testGoProLan() {
-	//glog_demo()
+	glog_demo()
 	//goplio_ch1_echo()
 	//goplio_ch1_dup1()
 	//goplio_ch1_dup2()
@@ -65,7 +65,7 @@ func testGoProLan() {
 	//goplio_ch4_issuesreport()
 	//goplio_ch4_issueshtml()
 	//testAnonymousfunc()
-	goplio_ch5_topsort()
+	//goplio_ch5_topsort()
 	//testVariablePara()
 	//testJoin()
 }
@@ -74,6 +74,10 @@ func testGoProLan() {
 func glog_demo() {
 	// 命令行参数 -log_dir="./" -v=2
 	flag.Parse() // 1 glog 解析命令行参数
+
+	file, _:= os.Open("sys.log")
+	errlog := log.New(file, "20180109", 1)
+	errlog.Println("dddd")
 
 	glog.Info("This is a Info log") // 2
 	glog.Warning("This is a Warning log")
