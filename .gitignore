@@ -6,13 +6,13 @@
 # 不忽略当前目录的src/000_my_projects文件夹
 !/src/000_my_projects
 !/src/gopl.io
-!/src/github.com/torbiak/gopl
+!/src/gopl.execise
 
 
 # 忽略所有目录下的.svn文件夹及其文件
 .idea
-vendor
 .svn
+vendor
 
 
 
