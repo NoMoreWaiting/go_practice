@@ -1,6 +1,14 @@
 # GOPATH
+
 this is my go practice, keep going
 
+### goland 配色方案规则
+1. 包级别变量*倾斜*
+2. 包导出的变量, 函数和方法**粗体**
+3. 常量, 统一绿色自己
+4. 行注释绿色, 段注释灰色
+
+<br>
 
 ### go 包安装问题
 
