@@ -6,8 +6,6 @@ import (
 	"github.com/astaxie/beego/logs"
 )
 
-
-
 func GetCurrentTradingDay() (int64, []FtdcTradingDay) {
 	o := orm.NewOrm()
 
@@ -53,6 +51,3 @@ func GetInstrumentByTradingDay() (int64, []FtdcInstrument) {
 
 	return num, ftdcInstrument
 }
-
-
-

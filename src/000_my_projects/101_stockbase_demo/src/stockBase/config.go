@@ -3,25 +3,24 @@ package stockBase
 
 import (
 	"encoding/xml"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"flag"
 )
 
 var (
-	SysConfig      Config
+	SysConfig Config
 	//第一个参数，为参数名称，第二个参数为默认值，第三个参数是说明
 	configFilePath = flag.String("c", "../conf/cfg.xml", "Config.xml File Path")
 )
 
-
 type Basic struct {
-	XmlName   xml.Name `xml:"basic"`
-	Logdir    string   `xml:"logdir"`
-	Logprefix string   `xml:"logprefix"`
-	Runlog    int      `xml:"runlog"`
-	ListenIpPort  string  `xml:"listenIpPort"`
+	XmlName      xml.Name `xml:"basic"`
+	Logdir       string   `xml:"logdir"`
+	Logprefix    string   `xml:"logprefix"`
+	Runlog       int      `xml:"runlog"`
+	ListenIpPort string   `xml:"listenIpPort"`
 }
 
 type DBConfig struct {
@@ -35,7 +34,7 @@ type DBConfig struct {
 
 type Config struct {
 	XmlName  xml.Name `xml:"config"`
-	Basic   Basic    `xml:"basic"`
+	Basic    Basic    `xml:"basic"`
 	DBConfig DBConfig `xml:"dbconfig"`
 }
 
@@ -51,7 +50,7 @@ func (config Config) MySqlSource() string {
 
 func (basic Basic) String() string {
 	return fmt.Sprintf(" logdir : %s,logprefix : %s, runlog : %d, ListenIpPort:%s",
-		basic.Logdir, basic.Logprefix, basic.Runlog,basic.ListenIpPort)
+		basic.Logdir, basic.Logprefix, basic.Runlog, basic.ListenIpPort)
 }
 
 /*
@@ -60,7 +59,7 @@ func (basic Basic) String() string {
 func GetConfig() (Config, bool) {
 	flag.Parse()
 
-	fmt.Println("config opening file: ", *configFilePath)	//配置文件路径
+	fmt.Println("config opening file: ", *configFilePath) //配置文件路径
 	var config Config
 
 	xmlFile, err := os.Open(*configFilePath)

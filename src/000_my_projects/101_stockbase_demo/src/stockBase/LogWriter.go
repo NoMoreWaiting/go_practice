@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var logWriter      LogWriter
+var logWriter LogWriter
 
 const (
 	DEBUG = iota
@@ -41,12 +41,12 @@ func (l *LogWriter) Info(format string, v ...interface{}) {
 func (_self *LogWriter) createFolder(current time.Time) {
 	if current.Day() != _self.lasttime.Day() || current.Month() != _self.lasttime.Month() || current.Year() != _self.lasttime.Year() {
 		os.MkdirAll(SysConfig.Basic.Logdir, 0777)
-                
+
 		_self.logfile.Close()
 		fileName := fmt.Sprintf("stockbase.run.%04d-%02d-%02d.log", current.Year(), current.Month(), current.Day())
 		var err error
 		_self.logfile, err = os.OpenFile(SysConfig.Basic.Logdir+"/"+fileName, os.O_APPEND|os.O_RDWR|os.O_CREATE, 0777)
-                
+
 		if err != nil {
 			fmt.Printf("%s\r\n", err.Error())
 			return

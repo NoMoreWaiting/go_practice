@@ -9,17 +9,17 @@ import (
 )
 
 func QueryBasicInstCode(w http.ResponseWriter, r *http.Request) {
-	 tradingDayInfo := GetTradingDayInfo();
-	 w.Write([]byte(tradingDayInfo.StrBasicCodeInfo))
-	 logs.Info("recieve json is:", tradingDayInfo.StrBasicCodeInfo)
+	tradingDayInfo := GetTradingDayInfo();
+	w.Write([]byte(tradingDayInfo.StrBasicCodeInfo))
+	logs.Info("recieve json is:", tradingDayInfo.StrBasicCodeInfo)
 
 }
 
 func QueryInstCode(w http.ResponseWriter, r *http.Request) {
 
-	r.ParseForm()  // 解析参数
-	var param  ReqInstCode
-	parseKlineQueryParam(r,&param)
+	r.ParseForm() // 解析参数
+	var param ReqInstCode
+	parseKlineQueryParam(r, &param)
 
 	tradingDayInfo := GetTradingDayInfo()
 	nIndex := Count(tradingDayInfo.StrStockVer, ",")
@@ -40,9 +40,9 @@ func QueryInstCode(w http.ResponseWriter, r *http.Request) {
 }
 
 func QueryAdditionalInstCode(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()  // 解析参数
-	var param  ReqInstCode
-	parseKlineQueryParam(r,&param)
+	r.ParseForm() // 解析参数
+	var param ReqInstCode
+	parseKlineQueryParam(r, &param)
 	var outJson string
 	var version string
 	logs.Info("Ver is ", param.Ver)
@@ -64,12 +64,11 @@ func QueryAdditionalInstCode(w http.ResponseWriter, r *http.Request) {
 
 }
 
-
 func SearchInstCodeByKey(w http.ResponseWriter, r *http.Request) {
 
-	r.ParseForm()  // 解析参数
-	var param  ReqInstCode
-	parseKlineQueryParam(r,&param)
+	r.ParseForm() // 解析参数
+	var param ReqInstCode
+	parseKlineQueryParam(r, &param)
 
 	key := strings.ToLower(param.Key)
 
@@ -88,7 +87,7 @@ func SearchInstCodeByKey(w http.ResponseWriter, r *http.Request) {
 	for i, pIterEver := range vecSearcResultEver {
 		for _, pIterCurr := range vecSearcResultCurr {
 			if pIterEver.SecurityCode == pIterCurr.SecurityCode {
-				vecSearcResultEver = append(vecSearcResultEver[:i], vecSearcResultEver[i+1:]...)	//删除这个元素
+				vecSearcResultEver = append(vecSearcResultEver[:i], vecSearcResultEver[i+1:]...) //删除这个元素
 				break
 			}
 		}
@@ -97,7 +96,7 @@ func SearchInstCodeByKey(w http.ResponseWriter, r *http.Request) {
 	for i, itsec := range vecSearcResultEver {
 		temp := vecSearcResultEver[i+1]
 		if temp.SecurityCode == itsec.SecurityCode {
-			vecSearcResultEver = append(vecSearcResultEver[:i+1], vecSearcResultEver[i+2:]...)	//删除temp这个元素
+			vecSearcResultEver = append(vecSearcResultEver[:i+1], vecSearcResultEver[i+2:]...) //删除temp这个元素
 			break
 		}
 	}
@@ -106,26 +105,25 @@ func SearchInstCodeByKey(w http.ResponseWriter, r *http.Request) {
 	icCodeInfo.ErrorCode = 0
 	icCodeInfo.ErrorMsg = "success"
 	icCodeInfo.Comm = ""
-	for _, pIter := range vecSearcResultCurr{
-		icCodeInfo.Data = append(icCodeInfo.Data, InstInfo{Ei:uint64(pIter.Id), Inst:pIter.SecurityCode, SecNm:pIter.SecurityName,
-								Type:pIter.SecurityType, Py:pIter.ShortName, ExchID:pIter.ExchID, Current:pIter.CurrentName})
+	for _, pIter := range vecSearcResultCurr {
+		icCodeInfo.Data = append(icCodeInfo.Data, InstInfo{Ei: uint64(pIter.Id), Inst: pIter.SecurityCode, SecNm: pIter.SecurityName,
+			Type: pIter.SecurityType, Py: pIter.ShortName, ExchID: pIter.ExchID, Current: pIter.CurrentName})
 	}
 
-	for _, pIter := range vecSearcResultEver{
-		icCodeInfo.Data = append(icCodeInfo.Data, InstInfo{Ei:uint64(pIter.Id), Inst:pIter.SecurityCode, SecNm:pIter.SecurityName,
-			Type:pIter.SecurityType, Py:pIter.ShortName, ExchID:pIter.ExchID, Current:pIter.CurrentName})
+	for _, pIter := range vecSearcResultEver {
+		icCodeInfo.Data = append(icCodeInfo.Data, InstInfo{Ei: uint64(pIter.Id), Inst: pIter.SecurityCode, SecNm: pIter.SecurityName,
+			Type: pIter.SecurityType, Py: pIter.ShortName, ExchID: pIter.ExchID, Current: pIter.CurrentName})
 	}
 
-	response,_ :=json.Marshal(icCodeInfo)
+	response, _ := json.Marshal(icCodeInfo)
 	w.Write([]byte(response))
 	logs.Info("recieve json is:", icCodeInfo)
 
 }
 
-
 func Count(str, pos string) int {
 	count := 0
-	for i:=0; i<len(str); i++ {
+	for i := 0; i < len(str); i++ {
 		ch := str[i]
 		if ch == ',' {
 			break
@@ -136,26 +134,24 @@ func Count(str, pos string) int {
 	return count
 }
 
-
-func parseKlineQueryParam(r *http.Request, param *ReqInstCode){
-	body,_ := ioutil.ReadAll(r.Body)
+func parseKlineQueryParam(r *http.Request, param *ReqInstCode) {
+	body, _ := ioutil.ReadAll(r.Body)
 	r.Body.Close()
-	logs.Info("receive request para is %s",string(body) )
-	error :=json.Unmarshal(body,param)
-	if nil != error{
-		logs.Error("parse json param error:%s",error.Error())
+	logs.Info("receive request para is %s", string(body))
+	error := json.Unmarshal(body, param)
+	if nil != error {
+		logs.Error("parse json param error:%s", error.Error())
 	}
 
 }
 
 //去除空格
-func remove_blanks(string string) (string)  {
+func remove_blanks(string string) (string) {
 	string = strings.Replace(string, " ", "", -1)
 	return string
 }
 
-
-func SearchByPrefix(prefix string, map_result map[string]InstCodeInfo, max_result_size int64) (ret bool, ICInfo []InstCodeInfo)  {
+func SearchByPrefix(prefix string, map_result map[string]InstCodeInfo, max_result_size int64) (ret bool, ICInfo []InstCodeInfo) {
 	var count int64
 	var str_prefix string
 	count = 0
