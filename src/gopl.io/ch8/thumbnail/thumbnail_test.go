@@ -117,7 +117,7 @@ func makeThumbnails5(filenames []string) (thumbfiles []string, err error) {
 func makeThumbnails6(filenames <-chan string) int64 {
 	sizes := make(chan int64)
 	var wg sync.WaitGroup // number of working goroutines
-	for f := range filenames {
+	for f := range filenames { // 这里的range filenames, 需要外界调用的地方进行 close(filenames)操作
 		wg.Add(1)
 		// worker
 		go func(f string) {
@@ -132,10 +132,10 @@ func makeThumbnails6(filenames <-chan string) int64 {
 		}(f)
 	}
 
-	// closer
+	// closer // 使用单独的 closer 来执行等待和关闭操作
 	go func() {
 		wg.Wait()
-		close(sizes)
+		close(sizes) // wg.Wait()可以在主函数中调用并堵塞, 但 close(sizes) 不行. 如果先于 range sizes 调用, 将无法读取(sizes 是无缓冲的Channel, 如果是有缓冲的, 那么也不好确定缓存的大小). 如果在之后调用, 那么 range sizes 会一直堵塞读取, close(sizes) 永远不会被读取到
 	}()
 
 	var total int64

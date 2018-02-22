@@ -57,8 +57,12 @@ func (s *Shop) icer(iced chan<- cake, baked <-chan cake) {
 func (s *Shop) inscriber(iced <-chan cake) {
 	for i := 0; i < s.Cakes; i++ {
 		c := <-iced
+		// 出现 fatal error: all goroutines are asleep - deadlock!
+		// range 会一直取 iced (<-chan cake) 中的值, 但 iced 的 cake 数目有限, 取完之后再取的话, 就会阻塞在这里(iced 没有被 close, range的取值不会直接返回, 而是阻塞), 而其他的 go routinue 已经完成退出, 程序直接死锁了
+		// for c:= range iced{
 		if s.Verbose {
 			fmt.Println("inscribing", c)
+			fmt.Println("len(iced): ", len(iced))
 		}
 		work(s.InscribeTime, s.InscribeStdDev)
 		if s.Verbose {

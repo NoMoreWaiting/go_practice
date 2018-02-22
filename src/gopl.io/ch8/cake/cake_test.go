@@ -11,7 +11,8 @@ import (
 )
 
 var defaults = cake.Shop{
-	Verbose:      testing.Verbose(),
+	// Verbose:      testing.Verbose(),
+	Verbose:      true,
 	Cakes:        20,
 	BakeTime:     10 * time.Millisecond,
 	NumIcers:     1,

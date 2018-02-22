@@ -36,7 +36,7 @@ func main() {
 	worklist := make(chan []string)
 
 	// Start with the command-line arguments.
-	go func() { worklist <- os.Args[1:] }()
+	go func() { worklist <- os.Args[1:] }() // 如果在主函数中直接调用 worklist <- os.Args[1:], 那么此时 worklist 无人接收, 发送操作将会阻塞. 但接收操作在这之后的 range 中, 所以 deadlock
 
 	// Crawl the web concurrently.
 	seen := make(map[string]bool)
