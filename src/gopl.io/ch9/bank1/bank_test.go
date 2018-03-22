@@ -15,6 +15,7 @@ func TestBank(t *testing.T) {
 
 	// Alice
 	go func() {
+		fmt.Println("=", bank.Balance())
 		bank.Deposit(200)
 		fmt.Println("=", bank.Balance())
 		done <- struct{}{}
