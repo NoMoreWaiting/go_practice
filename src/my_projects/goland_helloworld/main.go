@@ -126,6 +126,7 @@ func main() {
 
 
 	testInterface()
+	testMoreInterface()
 	testDefer()
 	//testHelloWorld()
 

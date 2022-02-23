@@ -86,7 +86,7 @@ func testPeriodTask() {
 	ticker := time.NewTicker(time.Second * 2)
 	go func() {
 		for value := range ticker.C {
-			fmt.Println("ticked at %v", time.Now())
+			fmt.Printf("ticked at %v\n", time.Now())
 			fmt.Println("value =", value)
 		}
 	}()
