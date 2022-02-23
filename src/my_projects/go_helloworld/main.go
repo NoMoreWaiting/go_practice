@@ -33,7 +33,6 @@ func init() {
 	regStruct["Bar"] = Bar{}
 }
 
-
 type People interface {
 	Speak(string) string
 }
@@ -41,7 +40,7 @@ type People interface {
 type NewStudent struct{}
 
 // 类型A的指针实现了接口就得传递A的指针, (接口类型值可以由A的指针赋值)
-func (n *NewStudent)Speak(think string) (talk string){
+func (n *NewStudent) Speak(think string) (talk string) {
 	if think == "bitch" {
 		talk = "You are a good boy"
 	} else {
@@ -67,15 +66,13 @@ func testInterface() {
 	think := "bitch"
 	fmt.Println(peo.Speak(think))
 
-	var n *NewStudent;
-	peo = n;
+	var n *NewStudent
+	peo = n
 	fmt.Println(peo.Speak(think))
 
 	peo = &NewStudent{}
 	fmt.Println(peo.Speak(think))
 }
-
-
 
 func testDefer() {
 	println(DeferFunc1(1))
@@ -107,26 +104,23 @@ func DeferFunc3(i int) (t int) {
 }
 
 const (
-	x = iota  // 0
-	y // 1
-	z = "zz" // zz
-	kk // zz
-	p = iota // 4
+	x  = iota // 0
+	y         // 1
+	z  = "zz" // zz
+	kk        // zz
+	p  = iota // 4
 )
-
-
 
 // main 函数, 测试用例
 func main() {
-	fmt.Println(x,y,z,kk,p)
+	fmt.Println(x, y, z, kk, p)
 	s1 := []int{1, 2, 3}
 	s2 := []int{4, 5}
 	s1 = append(s1, s2...) // 如果是 append(s1, s2) 报错. 不能直接合并
 	fmt.Println(s1)
 
-
 	testInterface()
-	testMoreInterface()
+	// testMoreInterface()
 	testDefer()
 	//testHelloWorld()
 
@@ -134,7 +128,7 @@ func main() {
 	//testSingleNonDuplicate()
 
 	/*go programming language*/
-	testGoProLan()
+	// testGoProLan()
 
 	/*http server and client*/
 	//testHttpClient()
@@ -151,9 +145,9 @@ func main() {
 	//testGoMySQL()
 
 	/*反射实验*/
-	testReflectMethod()
-	testReflectDemo()
-	testReflectInterface()
+	// testReflectMethod()
+	// testReflectDemo()
+	// testReflectInterface()
 	//(&ReflectDemo{}).testReflect()
 	//testStructReflect()
 	//testReflect()
