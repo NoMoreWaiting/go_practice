@@ -1,25 +1,25 @@
 {
 	"folders": [
-	  {
-		"name": "chatroom",
-		"path": "./chatroom"
-	  },
-	  {
-		"name": "helloworld",
-		"path": "./helloworld"
-	  },
-	  {
-		"name": "radarftcollect",
-		"path": "./radarftcollect"
-	  },
-	  {
-		"name": "stockbasedemo",
-		"path": "./stockbasedemo"
-	  },
-	  {
-		"name": "project",
-		"path": ".",
-	  }
+
+		{
+			"name": "chatroom",
+			"path": "./chatroom"
+		},
+		{
+			"name": "helloworld",
+			"path": "./helloworld"
+		},
+		{
+			"name": "radarftcollect",
+			"path": "./radarftcollect"
+		},
+		{
+			"name": "stockbasedemo",
+			"path": "./stockbasedemo"
+		},
+				{
+			"name": "project",
+			"path": ".",
+		},
 	]
-  }
- 
+}

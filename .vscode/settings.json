@@ -1,0 +1,8 @@
+{
+    "files.exclude": {
+        "chatroom": true,
+        "helloworld": true,
+        "radarftcollect": true,
+        "stockbasedemo": true,
+    }
+}
