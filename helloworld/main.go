@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
 	_ "helloworld/algorithm"
 	_ "helloworld/gormdemo"
+	"helloworld/gotemplate"
 	"helloworld/hello"
 	_interface "helloworld/interface"
 	_reflect "helloworld/reflect"
@@ -28,4 +31,7 @@ func main() {
 	textprotocol.TestConfigXML()
 	textprotocol.TestParseJson()
 
+	wr := &bytes.Buffer{}
+	gotemplate.TranslateTemplate(wr, "gotemplate/")
+	fmt.Println(wr.String())
 }
