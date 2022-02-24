@@ -1,3 +1,0 @@
-package: gopl.io
-import:
-- package: golang.org/x/net
