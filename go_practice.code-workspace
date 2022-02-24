@@ -5,10 +5,6 @@
 		"path": "./chatroom"
 	  },
 	  {
-		"name": "goroutinue",
-		"path": "./goroutinue"
-	  },
-	  {
 		"name": "helloworld",
 		"path": "./helloworld"
 	  },
