@@ -30,9 +30,3 @@ func SingleNonDuplicate(nums []int) int {
 	}
 	return SingleNonDuplicate(nums)
 }
-
-func TestSingleNonDuplicate() {
-	nums := []int{3, 3, 7, 7, 10, 11, 11, 12, 12, 13, 13}
-	fmt.Println(SingleNonDuplicate(nums))
-
-}

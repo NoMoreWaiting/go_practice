@@ -1,5 +1,0 @@
-package: 000_my_projects/002_gorm_demo
-import:
-- package: github.com/jinzhu/gorm
-  subpackages:
-  - dialects/sqlite

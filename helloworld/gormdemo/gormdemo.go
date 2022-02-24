@@ -1,18 +1,19 @@
-package main
+package gormdemo
 
 import (
-"github.com/jinzhu/gorm"
-_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"fmt"
+
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 type Product struct {
 	gorm.Model
-	Code string
+	Code  string
 	Price uint
 }
 
-func main() {
+func operationSqlite3() {
 	db, err := gorm.Open("sqlite3", "test.db")
 	if err != nil {
 		panic("failed to connect database")
@@ -27,7 +28,7 @@ func main() {
 
 	// Read
 	var product Product
-	db.First(&product, 1) // find product with id 1
+	db.First(&product, 1)                   // find product with id 1
 	db.First(&product, "code = ?", "L1212") // find product with code l1212
 	fmt.Println(product)
 
