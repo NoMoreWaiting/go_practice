@@ -1,18 +1,13 @@
 package main
 
 import (
-	"os"
+	"chatroom/chat"
 	"fmt"
-	"000_my_projects/100_chatroom/chat"
 )
 
-func mainServer(){
-	if len(os.Args) != 2{
-		fmt.Printf("Usage: %s <port>\n", os.Args[0])
-		os.Exit(-1)
-	}
+func mainServer(connStr string) {
 
 	server := chat.CreateServer()
-	fmt.Printf("Run on %s\n", os.Args[1])
-	server.Start(os.Args[1])
+	fmt.Printf("mainServer Run on %s\n", connStr)
+	server.Start(connStr)
 }

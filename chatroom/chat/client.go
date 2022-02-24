@@ -1,9 +1,9 @@
-echopackage chat
+package chat
 
 import (
-	"net"
 	"bufio"
 	"log"
+	"net"
 	"os"
 	"strings"
 )
@@ -22,7 +22,7 @@ func (c *Client) GetName() string {
 	return c.name
 }
 
-func (c *Client) SetName(name string) () {
+func (c *Client) SetName(name string) {
 	c.name = name
 }
 
@@ -30,7 +30,7 @@ func (c *Client) GetIncoming() string {
 	return <-c.incoming
 }
 
-func (c *Client) PutOutgoing(message string) () {
+func (c *Client) PutOutgoing(message string) {
 	c.outgoing <- message
 }
 

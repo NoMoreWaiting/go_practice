@@ -3,8 +3,9 @@ package chat
 import (
 	"errors"
 	"fmt"
-	"github.com/tyrchen/goutil/regex"
 	"regexp"
+
+	"github.com/tyrchen/goutil/regex"
 )
 
 type Command struct {

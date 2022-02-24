@@ -1,0 +1,33 @@
+{
+	"folders": [
+	  {
+		"name": "chatroom",
+		"path": "./chatroom"
+	  },
+	  {
+		"name": "gormdemo",
+		"path": "./gormdemo"
+	  },
+	  {
+		"name": "goroutinue",
+		"path": "./goroutinue"
+	  },
+	  {
+		"name": "helloworld",
+		"path": "./helloworld"
+	  },
+	  {
+		"name": "radarftcollect",
+		"path": "./radarftcollect"
+	  },
+	  {
+		"name": "stockbasedemo",
+		"path": "./stockbasedemo"
+	  },
+	  {
+		"name": "project",
+		"path": ".",
+	  }
+	]
+  }
+ 
