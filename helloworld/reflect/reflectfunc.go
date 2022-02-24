@@ -1,4 +1,4 @@
-package main
+package _reflect
 
 import (
 	"fmt"
@@ -35,7 +35,7 @@ func Call(_func interface{}, params ...interface{}) (result []interface{}, err e
 	}
 	out := f.Call(in)
 	if len(out) > 0 { //prepare out paras
-		result = make([]interface{}, len(out), len(out))
+		result = make([]interface{}, len(out))
 		for i, v := range out {
 			result[i] = v.Interface()
 		}
@@ -53,7 +53,7 @@ func ChanRecv(ch interface{}) (r interface{}) {
 }
 
 // reflect fields of a struct
-func reflect_struct_info(it interface{}) {
+func ReflectStructInfo(it interface{}) {
 	t := reflect.TypeOf(it)
 	fmt.Printf("interface info:%s %s %s %s\n", t.Kind(), t.PkgPath(), t.Name(), t)
 	if t.Kind() == reflect.Ptr { //if it is pointer, get it element type
@@ -77,7 +77,7 @@ func reflect_struct_info(it interface{}) {
 	if k == reflect.Struct { //反射结构体成员信息
 		for i := 0; i < t.NumField(); i++ {
 			f := t.Field(i)
-			fmt.Printf("%s %v\n", i, f)
+			fmt.Printf("%d %v\n", i, f)
 		}
 		for i := 0; i < t.NumMethod(); i++ {
 			f := t.Method(i)
@@ -92,11 +92,11 @@ func reflect_struct_info(it interface{}) {
 		for i := 0; i < v.NumField(); i++ {
 			f := v.Field(i)
 			if !f.CanInterface() {
-				fmt.Printf("%d:[%s] %v\n", i, t.Field(i), f.Type())
+				fmt.Printf("%d:[%v] %v\n", i, t.Field(i), f.Type())
 				continue
 			}
 			val := f.Interface()
-			fmt.Printf("%d:[%s] %v %v\n", i, t.Field(i), f.Type(), val)
+			fmt.Printf("%d:[%v] %v %v\n", i, t.Field(i), f.Type(), val)
 		}
 		fmt.Printf("Methods:\n")
 		for i := 0; i < v.NumMethod(); i++ {

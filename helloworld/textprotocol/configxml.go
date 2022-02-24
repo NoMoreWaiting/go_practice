@@ -1,4 +1,4 @@
-package main
+package textprotocol
 
 import (
 	"encoding/xml"
@@ -7,11 +7,7 @@ import (
 	"log"
 )
 
-func testConfigXML() {
-	//test1()
-	//test2()
-	test3()
-}
+const CONFIG_PATH = "config/"
 
 type Result struct {
 	Person []Person `xml:"person"`
@@ -40,7 +36,7 @@ type Checker interface {
 }
 
 func test1() {
-	content, err := ioutil.ReadFile("cfg.xml")
+	content, err := ioutil.ReadFile(CONFIG_PATH + "config1.xml")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -67,7 +63,7 @@ type ResourceString struct {
 }
 
 func test2() {
-	content, err := ioutil.ReadFile("configtest.xml")
+	content, err := ioutil.ReadFile(CONFIG_PATH + "config2.xml")
 	if nil != err {
 		log.Fatal(err)
 	}
@@ -102,11 +98,12 @@ type Basic struct {
 	Run_log          int      `xml:"run_log,attr"`
 	Async_queue_size int      `xml:"async_queue_size,attr"`
 }
-type public struct {
-	IP   string `xml:"ip,attr"`
-	Port int    `xml:"port,attr"`
-	User string `xml:"user,attr"`
-}
+
+// type public struct {
+// 	IP   string `xml:"ip,attr"`
+// 	Port int    `xml:"port,attr"`
+// 	User string `xml:"user,attr"`
+// }
 
 type CoMysql struct {
 	XMLName xml.Name `xml:"co_mysql"`
@@ -159,7 +156,7 @@ type Item struct {
 }
 
 func test3() {
-	content, err := ioutil.ReadFile("config.xml")
+	content, err := ioutil.ReadFile(CONFIG_PATH + "config3.xml")
 	if nil != err {
 		log.Fatal(err) // 会直接结束程序
 	}
@@ -183,4 +180,10 @@ func test3() {
 	for t, o := range Config.RmqGw.Items {
 		fmt.Println("t: ", t, "   o: ", o)
 	}
+}
+
+func TestConfigXML() {
+	test1()
+	test2()
+	test3()
 }

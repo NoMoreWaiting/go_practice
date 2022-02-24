@@ -1,17 +1,11 @@
-package main
+package algorithm
 
 import "fmt"
 
-func testSingleNonDuplicate() {
-	nums := []int{3, 3, 7, 7, 10, 11, 11, 12, 12, 13, 13}
-	fmt.Println(singleNonDuplicate(nums))
-
-}
-
-func singleNonDuplicate(nums []int) int {
+func SingleNonDuplicate(nums []int) int {
 	fmt.Println(nums)
 	len := len(nums)
-	if 1 == len {
+	if len == 1 {
 		return nums[0]
 	} else if len%2 == 0 {
 		return -1 // 输入有误
@@ -34,5 +28,11 @@ func singleNonDuplicate(nums []int) int {
 			return nums[mid]
 		}
 	}
-	return singleNonDuplicate(nums)
+	return SingleNonDuplicate(nums)
+}
+
+func TestSingleNonDuplicate() {
+	nums := []int{3, 3, 7, 7, 10, 11, 11, 12, 12, 13, 13}
+	fmt.Println(SingleNonDuplicate(nums))
+
 }

@@ -3,9 +3,7 @@
 
 
 # 不忽略当前目录的src/000_my_projects文件夹
-!/src/000_my_projects
-!/src/gopl.io
-!/src/gopl.execise
+# !/src/000_my_projects
 
 
 # 忽略所有目录下的.svn文件夹及其文件

@@ -1,4 +1,4 @@
-package main
+package goprolan
 
 import (
 	"bufio"
@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/golang/glog"
 	htmltemp "html/template"
 	"image"
 	"image/color"
@@ -30,44 +29,48 @@ import (
 	"time"
 	"unicode"
 	"unicode/utf8"
+
+	"github.com/golang/glog"
 )
 
-func testGoProLan() {
+const CONFIG_PATH = "../config/"
+
+func GoProLan() {
 	glog_demo()
-	//goplio_ch1_echo()
-	//goplio_ch1_dup1()
-	//goplio_ch1_dup2()
-	//goplio_ch1_lissajous(os.Stdout)
-	//goplio_ch1_fetch()
-	//goplio_ch1_fetchall()
-	//goplio_ch1_server()
-	//goplio_ch2_echo()
-	//goplio_ch2_cf()
-	//goplio_ch3_surface()
-	//goplio_ch3_mandelbrot(os.Stdout)
-	//goplio_ch3_basename()
-	//goplio_ch3_comma()
-	//goplio_ch3_printints()
-	//testSameStrOutOrder()
-	//interConvStrNum()
-	//goplio_ch3_netflag()
-	//goplio_ch4_sha256()
-	//testReverse()
-	//testAppendInt()
-	//traverseMap()
-	//goplio_ch4_dedup()
-	//testConvKey()
-	//goplio_ch4_charcount()
-	//goplio_ch4_wordfreq()
-	//testBinaryTree()
-	//goplio_ch4_movie()
-	//goplio_ch4_issues()
-	//goplio_ch4_issuesreport()
-	//goplio_ch4_issueshtml()
-	//testAnonymousfunc()
-	//goplio_ch5_topsort()
-	//testVariablePara()
-	//testJoin()
+	goplio_ch1_echo()
+	goplio_ch1_dup1()
+	goplio_ch1_dup2()
+	// goplio_ch1_lissajous(os.Stdout)
+	// goplio_ch1_fetch()
+	// goplio_ch1_fetchall()
+	// goplio_ch1_server()
+	goplio_ch2_echo()
+	// goplio_ch2_cf()
+	goplio_ch3_surface()
+	// goplio_ch3_mandelbrot(os.Stdout)
+	goplio_ch3_basename()
+	goplio_ch3_comma()
+	goplio_ch3_printints()
+	testSameStrOutOrder()
+	interConvStrNum()
+	goplio_ch3_netflag()
+	goplio_ch4_sha256()
+	testReverse()
+	testAppendInt()
+	traverseMap()
+	goplio_ch4_dedup()
+	testConvKey()
+	goplio_ch4_charcount()
+	goplio_ch4_wordfreq()
+	testBinaryTree()
+	goplio_ch4_movie()
+	goplio_ch4_issues()
+	goplio_ch4_issuesreport()
+	goplio_ch4_issueshtml()
+	testAnonymousfunc()
+	goplio_ch5_topsort()
+	testVariablePara()
+	testJoin()
 }
 
 // glog 测试
@@ -75,7 +78,7 @@ func glog_demo() {
 	// 命令行参数 -log_dir="./" -v=2
 	flag.Parse() // 1 glog 解析命令行参数
 
-	file, _:= os.Open("sys.log")
+	file, _ := os.Open("sys.log")
 	errlog := log.New(file, "20180109", 1)
 	errlog.Println("dddd")
 
@@ -85,8 +88,8 @@ func glog_demo() {
 
 	glog.V(1).Infoln("level 1") // 3
 	glog.V(2).Infoln("level 2")
-	glog.V(2).Info("%s  %s\n", "test ", "real down")
-	//glog.V(3).Infoln("level 3")
+	glog.V(2).Infof("%s  %s\n", "test ", "real down")
+	glog.V(3).Infoln("level 3")
 
 	glog.Flush() // 4 输入到日志
 }
@@ -160,7 +163,7 @@ func countLines(f *os.File, counts map[string]int) {
 	// 需要使用终端去执行, goland的终端不一定靠谱
 	// 这里的获取内容无法执行, 不要总是纠结暂时无意义的细节, 可以问人, 也可以以后解决, 调整心态
 
-	const testText = "1,2,3,4,"
+	// const testText = "1,2,3,4,"
 	input := bufio.NewScanner(f)
 	//input := bufio.NewScanner(strings.NewReader(testText))
 	for input.Scan() {
@@ -242,6 +245,7 @@ func goplio_ch1_fetch() {
 
 		resp, err := http.Get(url)
 		defer resp.Body.Close()
+
 		if nil != err {
 			fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
 			os.Exit(1)
@@ -257,7 +261,7 @@ func goplio_ch1_fetch() {
 			os.Exit(2)
 		}
 		fmt.Printf("%s\n", b)
-		fmt.Printf("%s\n", x)
+		fmt.Printf("%v\n", x)
 		fmt.Println(resp.Status) // http 返回的状态码
 	}
 }
@@ -727,7 +731,7 @@ func sameStrOutOrder(s1, s2 string) bool {
 // 字符串和数字的转换
 func interConvStrNum() {
 	x := 123
-	y := fmt.Sprint("%d", x)
+	y := fmt.Sprintf("%d", x)
 	fmt.Println("y:", y, strconv.Itoa(x))
 	fmt.Println(strconv.FormatInt(int64(x), 2))
 	s := fmt.Sprintf("x=%b", x)
@@ -1001,7 +1005,7 @@ func goplio_ch4_charcount() {
 	var utflen [utf8.UTFMax + 1]int // count of lengths of UTF-8 encodings
 	invalid := 0                    // count of invalid UTF-8 characters
 
-	file, err := os.Open("config.xml")
+	file, err := os.Open(CONFIG_PATH + "config1.xml")
 	if nil != err {
 		log.Fatal(err)
 	}
@@ -1061,7 +1065,7 @@ func hasEdge(from, to string) bool {
 func goplio_ch4_wordfreq() {
 	counts := map[string]int{}
 
-	file, err := os.Open("config.xml")
+	file, err := os.Open(CONFIG_PATH + "config1.xml")
 	if nil != err {
 		log.Fatal(err)
 	}

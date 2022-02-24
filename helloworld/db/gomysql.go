@@ -1,17 +1,11 @@
-package main
+package db
 
 import (
-	"fmt"
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"  // 匿名导入的方式(在包路径前添加 _) 此驱动会自行初始化并注册自己到Golang的database/sql上下文中, 可以通过 database/sql 包提供的方法访问数据库
-)
+	"fmt"
 
-func testGoMySQL() {
-	insert()
-	update()
-	remove()
-	query()
-}
+	_ "github.com/go-sql-driver/mysql" // 匿名导入的方式(在包路径前添加 _) 此驱动会自行初始化并注册自己到Golang的database/sql上下文中, 可以通过 database/sql 包提供的方法访问数据库
+)
 
 //插入demo
 func insert() {
@@ -39,21 +33,21 @@ func query() {
 
 	//普通demo
 	/*
-	for rows.Next() {
-		var userId int; var userName string; var userAge int; var userSex int
+		for rows.Next() {
+			var userId int; var userName string; var userAge int; var userSex int
 
-		rows.Columns()
-		err = rows.Scan(&userId, &userName, &userAge, &userSex)
-		checkErr(err)
+			rows.Columns()
+			err = rows.Scan(&userId, &userName, &userAge, &userSex)
+			checkErr(err)
 
-		fmt.Println(userId); fmt.Println(userName); fmt.Println(userAge); fmt.Println(userSex)
-	}
+			fmt.Println(userId); fmt.Println(userName); fmt.Println(userAge); fmt.Println(userSex)
+		}
 	*/
 
 	// 字典类型
 	// 构造scanArgs、values两个数组，scanArgs的每个值指向values相应值的地址
 	columns, _ := rows.Columns()
-	scanArgs := make([]interface{}, len(columns)) 	// 存储values中值的地址, 供Scan扫描使用
+	scanArgs := make([]interface{}, len(columns)) // 存储values中值的地址, 供Scan扫描使用
 	values := make([]interface{}, len(columns))
 	for i := range values {
 		fmt.Println("len(values): ", len(values))
@@ -112,4 +106,11 @@ func checkErr(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func TestGoMySQL() {
+	insert()
+	update()
+	remove()
+	query()
 }

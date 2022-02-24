@@ -1,4 +1,4 @@
-package main
+package textprotocol
 
 import (
 	"encoding/json"
@@ -7,7 +7,6 @@ import (
 )
 
 type ConfigStruct struct {
-
 	Host              string   `json:"host"`
 	Port              int      `json:"port"`
 	AnalyticsFile     string   `json:"analytics_file"`
@@ -20,7 +19,6 @@ type ConfigStruct struct {
 }
 
 type Other struct {
-
 	SerTcpSocketHost string   `json:"serTcpSocketHost"`
 	SerTcpSocketPort int      `json:"serTcpSocketPort"`
 	Fruits           []string `json:"fruits"`
@@ -28,19 +26,19 @@ type Other struct {
 
 type Object []interface{}
 
-func testParseJson() {
+func TestParseJson() {
 
 	// 有问题, 下面的解析未适配
 	/*
-	jsonStr := `{"host": "http://localhost:9090",
-				"port": 9090,
-				"analytics_file": "",
-				"static_file_version": 1,
-				"static_dir": "E:/Project/goTest/src/",
-				"templates_dir": "E:/Project/goTest/src/templates/",
-				"serTcpSocketHost": ":12340",
-				"serTcpSocketPort": 12340,
-				"fruits": ["apple", "peach"]}`
+		jsonStr := `{"host": "http://localhost:9090",
+					"port": 9090,
+					"analytics_file": "",
+					"static_file_version": 1,
+					"static_dir": "E:/Project/goTest/src/",
+					"templates_dir": "E:/Project/goTest/src/templates/",
+					"serTcpSocketHost": ":12340",
+					"serTcpSocketPort": 12340,
+					"fruits": ["apple", "peach"]}`
 	*/
 
 	// 注意这里的字符串的限界符是 ` , 1左边的那个键, 不是'"引号
@@ -55,22 +53,21 @@ func testParseJson() {
 		fmt.Println("\n================= json str 转map ====================")
 		fmt.Println(data)
 
-		for x, y := range data{
+		for x, y := range data {
 			fmt.Println(x, y)
 		}
 
 		mapTmp := data["selectedProfile"].(map[string]interface{})
-		fmt.Println("selectedProfile.id: " , mapTmp["id"])
+		fmt.Println("selectedProfile.id: ", mapTmp["id"])
 
 		var data2 map[string]interface{}
 		if err := json.Unmarshal([]byte(jsonStr), &data2); err == nil {
-			fmt.Println( "data2---> ")
-			for x, y:= range data2{
+			fmt.Println("data2---> ")
+			for x, y := range data2 {
 				fmt.Println(x, " : ", y)
 			}
-			fmt.Println( "<--- data2")
+			fmt.Println("<--- data2")
 		}
-
 
 		mapTmp2 := (data["availableProfiles"].([]interface{}))[0].(map[string]interface{})
 		//mapTmp3 := mapTmp2[0].(map[string]interface {})
@@ -101,7 +98,7 @@ func testParseJson() {
 
 	//map 到json str
 	fmt.Println("\n================ map 到json str=====================")
-	enc := json.NewEncoder(os.Stdout)  // 这里的 os.Stdout 如何使用的?
+	enc := json.NewEncoder(os.Stdout) // 这里的 os.Stdout 如何使用的?
 	enc.Encode(data)
 
 	//array 到 json str

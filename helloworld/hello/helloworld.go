@@ -1,4 +1,4 @@
-package main
+package hello
 
 import (
 	"fmt"
@@ -9,6 +9,43 @@ import (
 
 // ---------------------------------
 const LIMIT = 30
+
+func testDefer() {
+	println(DeferFunc1(1))
+	println(DeferFunc2(1))
+	println(DeferFunc3(1))
+}
+
+func DeferFunc1(i int) (t int) {
+	t = i
+	defer func() {
+		t += 3
+	}()
+	return t
+}
+
+func DeferFunc2(i int) int {
+	t := i // t的左右与仅为内部函数, 不是整个 DeferFunc2, 不会影响外界的返回值
+	defer func() {
+		t += 3
+	}()
+	return t
+}
+
+func DeferFunc3(i int) (t int) {
+	defer func() {
+		t += i
+	}()
+	return 2
+}
+
+const (
+	x  = iota // 0
+	y         // 1
+	z  = "zz" // zz
+	kk        // zz
+	p  = iota // 4
+)
 
 // func() int 是函数 fibonacci() 的返回值, 返回值是一个 返回一个int类型值的函数
 func fibonacci() func() int {
@@ -46,6 +83,14 @@ func fib(n int) int {
 	return x
 }
 
+func testPrint() {
+	fmt.Println(x, y, z, kk, p)
+	s1 := []int{1, 2, 3}
+	s2 := []int{4, 5}
+	s1 = append(s1, s2...) // 如果是 append(s1, s2) 报错. 不能直接合并
+	fmt.Println(s1)
+}
+
 func testHelloWorld() {
 	fmt.Println("hello world")
 	fmt.Println("hello world!", runtime.Version())
@@ -55,7 +100,7 @@ func testHelloWorld() {
 }
 
 func testTimeSwitch() {
-	//获取本地location
+	// 获取本地 location
 	// 注意这里的时间两边不能有空格, 要去空格
 	toBeCharge := "2017-11-08 14:07:31"                             //待转化为时间戳的字符串 注意 这里的小时和分钟还要秒必须写 因为是跟着模板走的 修改模板的话也可以不写
 	timeLayout := "2006-01-02 15:04:05"                             //转化所需模板
@@ -83,14 +128,30 @@ func testTimeSwitch() {
 
 // 周期任务机制
 func testPeriodTask() {
-	ticker := time.NewTicker(time.Second * 2)
+	ticker := time.NewTicker(time.Millisecond * 100)
+	ch := make(chan int, 10)
 	go func() {
+		i := 0
 		for value := range ticker.C {
 			fmt.Printf("ticked at %v\n", time.Now())
 			fmt.Println("value =", value)
+			ch <- value.Second()
+			i++
+			if i > 10 {
+				close(ch)
+				break
+			}
 		}
 	}()
-	ch := make(chan int)
-	value := <-ch
-	fmt.Println("value =", value)
+	for value := range ch {
+		fmt.Println("value ---", value)
+	}
+}
+
+func TestHelloWorld() {
+	testPrint()
+	testDefer()
+	testHelloWorld()
+	testTimeSwitch()
+	testPeriodTask()
 }

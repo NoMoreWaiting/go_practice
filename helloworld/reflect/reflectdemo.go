@@ -1,4 +1,4 @@
-package main
+package _reflect
 
 import (
 	"encoding/json"
@@ -10,6 +10,36 @@ import (
 	"time"
 )
 
+// ---------------------------------
+type Foo struct {
+	name string
+}
+type Bar struct {
+	name string
+}
+
+//用于保存实例化的结构体对象
+var regStruct map[string]interface{}
+
+func init() {
+	regStruct = make(map[string]interface{})
+	regStruct["Foo"] = Foo{"foo"}
+	regStruct["Bar"] = Bar{name: "bar"}
+}
+
+func testReflectStruct() {
+	str := "Bar"
+	if regStruct[str] != nil {
+		t := reflect.ValueOf(regStruct[str]).Type()
+		v := reflect.New(t).Elem()
+		tt := reflect.ValueOf("songyunxuan")
+		fmt.Println(tt)
+		//v.FieldByName("name").Set(tt)
+		fmt.Println(v)
+	}
+}
+
+// ---------------------------------
 type MyType struct {
 	i    int
 	name string
@@ -56,11 +86,11 @@ func testReflectMethod() {
 // ---------------------------------
 // 发送的表消息
 type TradeTable struct {
-	InvestorID string  `投资者ID`
-	CurStorage int     `当前存量`
-	DealAmount float64 `当日成交金额`
-	DealCount  int     `当日成交量`
-	SerCharge  float64 `当日手续费`
+	InvestorID string  `comment:"投资者ID"`
+	CurStorage int     `comment:"当前存量"`
+	DealAmount float64 `comment:"当日成交金额"`
+	DealCount  int     `comment:"当日成交量"`
+	SerCharge  float64 `comment:"当日手续费"`
 }
 
 type User struct {
@@ -76,8 +106,7 @@ func (u *User) SayHello() {
 	fmt.Println("I'm "+u.Name+", Id is ", u.Id, ". Nice to meet you.")
 }
 
-//
-func testReflectInter(tableStruct interface{}) {
+func printReflectInterface(tableStruct interface{}) {
 	newStruct := tableStruct.(User)
 	object := reflect.ValueOf(&newStruct)
 	myref := object.Elem()
@@ -90,7 +119,7 @@ func testReflectInter(tableStruct interface{}) {
 }
 
 // 通过反射调用方法
-func testReflectDemo() {
+func TestReflectDemo() {
 	p := 1
 	q := p
 	// 0xc04215a130, 0xc04215a138 自动赋值为一个新的值
@@ -98,7 +127,7 @@ func testReflectDemo() {
 
 	tongydon := &User{1, "TangXiaoDong", 25, "男"}
 
-	testReflectInter(User{2, "Tang", 26, "男--"})
+	printReflectInterface(User{2, "Tang", 26, "男--"})
 
 	object := reflect.ValueOf(tongydon)
 	myref := object.Elem()
@@ -113,10 +142,51 @@ func testReflectDemo() {
 	v.Call([]reflect.Value{})
 }
 
+// ---------------------------------
+
+// formatAtom formats a value without inspecting its internal structure.
+func formatAtom(v reflect.Value) string {
+	switch v.Kind() {
+	case reflect.Invalid:
+		return "invalid"
+	case reflect.Int, reflect.Int8, reflect.Int16,
+		reflect.Int32, reflect.Int64:
+		return strconv.FormatInt(v.Int(), 10)
+	case reflect.Uint, reflect.Uint8, reflect.Uint16,
+		reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+		return strconv.FormatUint(v.Uint(), 10)
+		// ...floating-point and complex cases omitted for brevity...
+	case reflect.Bool:
+		return strconv.FormatBool(v.Bool())
+	case reflect.String:
+		return strconv.Quote(v.String())
+	case reflect.Chan, reflect.Func, reflect.Ptr, reflect.Slice, reflect.Map:
+		return v.Type().String() + " 0x" +
+			strconv.FormatUint(uint64(v.Pointer()), 16)
+	default: // reflect.Array, reflect.Struct, reflect.Interface
+		return v.Type().String() + " value"
+	}
+}
+
+// any formats any value as a string.
+func any(value interface{}) string {
+	return formatAtom(reflect.ValueOf(value))
+}
+
+// test func Any
+func testAny() {
+	var x int64 = 1
+	var d time.Duration = 1 * time.Nanosecond
+	fmt.Println(any(x))               // "1"
+	fmt.Println(any(d))               // "1"
+	fmt.Println(any([]int64{x}))      // "[]int64 0x8202b87b0"
+	fmt.Println(([]time.Duration{d})) // "[]time.Duration 0x8202b87e0"
+}
+
 type ReflectDemo struct {
 }
 
-func (this *ReflectDemo) testReflect() {
+func (reflectDemo *ReflectDemo) testReflectDemo() {
 
 	testAny()
 
@@ -157,73 +227,34 @@ func (this *ReflectDemo) testReflect() {
 
 }
 
-// test func Any
-func testAny() {
-	var x int64 = 1
-	var d time.Duration = 1 * time.Nanosecond
-	fmt.Println(Any(x))               // "1"
-	fmt.Println(Any(d))               // "1"
-	fmt.Println(Any([]int64{x}))      // "[]int64 0x8202b87b0"
-	fmt.Println(([]time.Duration{d})) // "[]time.Duration 0x8202b87e0"
-}
-
-// Any formats any value as a string.
-func Any(value interface{}) string {
-	return formatAtom(reflect.ValueOf(value))
-}
-
-// formatAtom formats a value without inspecting its internal structure.
-func formatAtom(v reflect.Value) string {
-	switch v.Kind() {
-	case reflect.Invalid:
-		return "invalid"
-	case reflect.Int, reflect.Int8, reflect.Int16,
-		reflect.Int32, reflect.Int64:
-		return strconv.FormatInt(v.Int(), 10)
-	case reflect.Uint, reflect.Uint8, reflect.Uint16,
-		reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-		return strconv.FormatUint(v.Uint(), 10)
-		// ...floating-point and complex cases omitted for brevity...
-	case reflect.Bool:
-		return strconv.FormatBool(v.Bool())
-	case reflect.String:
-		return strconv.Quote(v.String())
-	case reflect.Chan, reflect.Func, reflect.Ptr, reflect.Slice, reflect.Map:
-		return v.Type().String() + " 0x" +
-			strconv.FormatUint(uint64(v.Pointer()), 16)
-	default: // reflect.Array, reflect.Struct, reflect.Interface
-		return v.Type().String() + " value"
-	}
-}
-
 type GenericSlice struct {
 	elemType   reflect.Type
 	sliceValue reflect.Value
 }
 
-func (self *GenericSlice) Init(sample interface{}) {
+func (genericSlice *GenericSlice) Init(sample interface{}) {
 	value := reflect.ValueOf(sample)
-	self.sliceValue = reflect.MakeSlice(value.Type(), 0, 0)
-	self.elemType = reflect.TypeOf(sample).Elem()
+	genericSlice.sliceValue = reflect.MakeSlice(value.Type(), 0, 0)
+	genericSlice.elemType = reflect.TypeOf(sample).Elem()
 }
 
-func (self *GenericSlice) Append(e interface{}) bool {
-	if reflect.TypeOf(e) != self.elemType {
+func (genericSlice *GenericSlice) Append(e interface{}) bool {
+	if reflect.TypeOf(e) != genericSlice.elemType {
 		return false
 	}
-	self.sliceValue = reflect.Append(self.sliceValue, reflect.ValueOf(e))
+	genericSlice.sliceValue = reflect.Append(genericSlice.sliceValue, reflect.ValueOf(e))
 	return true
 }
 
-func (self *GenericSlice) ElemType() reflect.Type {
-	return self.elemType
+func (genericSlice *GenericSlice) ElemType() reflect.Type {
+	return genericSlice.elemType
 }
 
-func (self *GenericSlice) Interface() interface{} {
-	return self.sliceValue.Interface()
+func (genericSlice *GenericSlice) Interface() interface{} {
+	return genericSlice.sliceValue.Interface()
 }
 
-func testReflect() {
+func testGenericSlice() {
 	gs := GenericSlice{}
 	gs.Init(make([]int, 0))
 	fmt.Printf("Element Type: %s\n", gs.ElemType().Kind()) // => Element Type:int
@@ -232,6 +263,7 @@ func testReflect() {
 	fmt.Printf("sliceValue: %v\n", gs.Interface()) // => sliceValue: [2]
 }
 
+// ---------------------------------
 // 给空接口类型的结构体参数赋值
 type fullName struct {
 	FName string `json:"fname"`
@@ -249,33 +281,6 @@ type people struct {
 func (p people) String() string {
 	return "my name is " + p.Name.FName + " " + p.Name.MName + " " + p.Name.LName + "," +
 		"sex is " + p.Sex + ",Height is " + strconv.Itoa(p.Height) + ",Weight is " + strconv.Itoa(p.Weight)
-}
-
-type cat struct {
-	Name  fullName
-	Color string `json:"color"`
-}
-
-type dog struct {
-	Name  fullName
-	Color string `json:"color"`
-	Breed string `json:"breed"`
-}
-
-func testReflectInterface() {
-	var p, pp people
-	p.Name = fullName{FName: "Fdog", MName: "Sdog", LName: "Ldog"}
-	p.Sex = "diaosi"
-	p.Height = 170
-	p.Weight = 60
-
-	fmt.Println("p:", p)
-	fmt.Println("pp:", pp)
-	fmt.Printf("%p\n", &p)
-	setName(&p, &pp)
-	fmt.Println("p:", p)
-	fmt.Println("pp:", pp)
-
 }
 
 func setName(param interface{}, resp interface{}) {
@@ -304,4 +309,29 @@ func setName(param interface{}, resp interface{}) {
 	fmt.Println(err)
 
 	fmt.Println(r)
+}
+
+func testReflectInterface() {
+	var p, pp people
+	p.Name = fullName{FName: "Fdog", MName: "Sdog", LName: "Ldog"}
+	p.Sex = "diaosi"
+	p.Height = 170
+	p.Weight = 60
+
+	fmt.Println("p:", p)
+	fmt.Println("pp:", pp)
+	fmt.Printf("%p\n", &p)
+	setName(&p, &pp)
+	fmt.Println("p:", p)
+	fmt.Println("pp:", pp)
+
+}
+
+func TestInterface() {
+	testReflectStruct()
+	testReflectMethod()
+	testGenericSlice()
+	TestReflectDemo()
+	(&ReflectDemo{}).testReflectDemo()
+	testReflectInterface()
 }

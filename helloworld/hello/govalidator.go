@@ -1,4 +1,4 @@
-package main
+package hello
 
 import (
 	"fmt"
@@ -92,7 +92,7 @@ func getValidatorFromTag(tag string) Validator {
 	return DefaultValidator{}
 }
 
-func validateStruct(s interface{}) []error {
+func ValidateStruct(s interface{}) []error {
 	errs := []error{}
 	v := reflect.ValueOf(s)
 	for i := 0; i < v.NumField(); i++ {
@@ -118,7 +118,7 @@ type StructUser struct {
 	Email string `validate:"email"`
 }
 
-func testCusTag() {
+func TestCustomTag() {
 	user := StructUser{
 		Id:    0,
 		Name:  "superLongstring",
@@ -126,7 +126,7 @@ func testCusTag() {
 		Email: "foobar",
 	}
 	fmt.Println("Errors:")
-	for i, err := range validateStruct(user) {
+	for i, err := range ValidateStruct(user) {
 		fmt.Printf("\t%d. %s\n", i+1, err.Error())
 	}
 }
