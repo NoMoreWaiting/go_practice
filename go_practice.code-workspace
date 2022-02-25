@@ -21,5 +21,20 @@
 			"name": "project",
 			"path": ".",
 		},
-	]
+	],
+	"settings": {
+		"sqltools.connections": [
+			{
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 5432,
+				"driver": "PostgreSQL",
+				"name": "pgsql",
+				"group": "pg",
+				"database": "data_model",
+				"username": "data_model",
+				"password": "data_model"
+			}
+		]
+	}
 }
